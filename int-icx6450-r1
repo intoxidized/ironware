@@ -1,0 +1,241 @@
+!   Copyright (c) 1996-2016 Brocade Communications Systems, Inc. All rights reserved.
+!     UNIT 1: compiled on Apr 23 2020 at 10:57:06 labeled as ICX64R08030u
+! 		(9871112 bytes) from Primary ICX64R08030u.bin
+!         SW: Version 08.0.30uT313 
+!   Boot-Monitor Image size = 512, Version:10.1.05T310 (u-boot-fox_98dx)
+!   HW: Stackable ICX6450-24-HPOE
+! ==========================================================================
+! UNIT 1: SL 1: ICX6450-24P POE 24-port Management Module
+!  	 Serial  #: 2ax5o2jk68e
+!  	 License: ICX6450_PREM_ROUTER_SOFT_PACKAGE   (LID: H4CKTH3PLN8)
+!  	 P-ENGINE  0: type DEF0, rev 01
+! ==========================================================================
+! UNIT 1: SL 2: ICX6450-SFP-Plus 4port 40G Module
+! ==========================================================================
+!   800 MHz ARM processor ARMv5TE, 400 MHz bus
+! 65536 KB flash memory
+!   512 MB DRAM
+! 
+! 
+! 
+!  The system : started=cold start	 
+! 
+! The stack unit 1 chassis info: 
+! 
+! Power supply 1 (NA - AC - PoE) present, status ok
+! Power supply 2 not present
+! 
+! Fan 1 ok, speed (auto): 
+! Fan 2 ok, speed (auto): 
+! 
+! Fan controlled temperature: XX.X deg-C
+! 
+! Fan speed switching temperature thresholds:
+! 		Speed 1: NM<----->64       deg-C
+! 		Speed 2:       59<-----> 88 deg-C (shutdown)
+! 
+! Sensor B Temperature Readings:
+! 
+! Sensor A Temperature Readings:
+! 
+! 	Warning level.......: XX.X deg-C
+! 	Shutdown level......: XX.X deg-C
+! Boot Prom MAC : 748e.f8d0.1b20
+! Management MAC: 748e.f8d0.1b20
+! Stack unit 1:
+!   Compressed Pri Code size = 9871112, Version:08.0.30uT313 (ICX64R08030u.bin)
+!   Compressed Sec Code size = 8070172, Version:08.0.10aT311 (ICX64S08010a.bin)
+!   Compressed Boot-Monitor Image size = 512, Version:10.1.05T310
+! 
+!        Module                                         Status Ports Starting MAC  
+! U1:M1  ICX6450-24P POE 24-port Management Module        OK     24   748e.f8d0.1b20
+! U1:M2  ICX6450-SFP-Plus 4port 40G Module                OK     4    748e.f8d0.1b39
+ver 08.0.30uT313
+!
+stack unit 1
+  module 1 icx6450-24p-poe-port-management-module
+  module 2 icx6450-sfp-plus-4port-40g-module
+!
+!
+!
+!
+vlan 1 name DEFAULT-VLAN by port
+!
+vlan 2 name INTUOS_INFRA by port
+ tagged ethe 1/1/3 to 1/1/4 
+ untagged ethe 1/1/1 to 1/1/2 ethe 1/1/5 to 1/1/8 ethe 1/1/24 
+ router-interface ve 2
+!
+vlan 3 name INTUOS_PHONE by port
+ tagged ethe 1/1/3 to 1/1/4 
+ router-interface ve 3
+!
+!
+!
+!
+!
+mtu-exceed forward
+gig-default auto-gig
+aaa authentication web-server default tacacs+ local
+aaa authentication enable default enable
+aaa authentication login default tacacs+ local
+aaa authentication login privilege-mode
+aaa accounting commands 0 default start-stop tacacs+
+aaa accounting exec default start-stop tacacs+
+aaa accounting system default start-stop tacacs+
+console timeout 10
+jumbo
+enable password-display
+enable super-user-password 8 $1$gcxjFkjk$k5JOwOyNJ.dQU76iaH3Jg0
+hostname INT-ICX6450-R1
+ip dns domain-list intuos.net
+ip dns server-address 192.168.4.120 192.168.4.121
+ip route 0.0.0.0/0 192.168.4.2
+no ip source-route
+ip icmp burst-normal 5000 burst-max 10000 lockup 300
+ip tcp burst-normal 10 burst-max 100 lockup 300
+!
+logging buffered 100
+username tbrocato password 8 $1$xMxM.Hy7$bB4qp79VwNzLKy.dFHX.u/
+username admin password 8 $1$WAo.qm0R$ZQD6xg0NIrDFWQS.XgYSO/
+fdp run
+snmp-server community 2 $U2kyXj1k ro
+snmp-server community 2 $Wj18ZzhvM2lPc20t rw
+snmp-server contact noc@intuos.net
+snmp-server enable traps syslog
+snmp-server location Charlotte, NC. [35.248129, -80.688825]
+snmp-server trap-source ve 2
+snmp-server host 192.168.4.133 version v2c 2 $Wj18ZzhvM2lPc20t
+!
+!
+clock summer-time
+clock timezone us Eastern
+!
+!
+ntp
+ master stratum 2
+ server 216.239.35.0
+ server 216.239.35.4
+ server 66.220.9.122
+!
+!
+web-management https
+banner motd require-enter-key
+banner motd ^C
+*****************!!!!!!!!!!!!!!   ATTENTION!   !!!!!!!!!!!!!!!!!***************^C
+^C
+You are accessing a Intuos Communications Information System (IS) that is^C
+provided for Intuos Communications authorized use only. By using this IS^C
+(which includes any device attached to this IS), you consent to the following^C
+conditions:^C
+^C
+A.) Intuos Communications routinely intercepts and monitors communications on^C
+this IS for purposes including, but not limited to, penetration testing,^C
+COMSEC monitoring, network operations and defense,personnel misconduct (PM),^C
+law enforcement (LE), and counterintelligence (CI) investigations.^C
+^C
+B.) At any time, Intuos Communications may inspect and seize data stored on^C
+this IS.^C
+^C
+C.) Communications using, or data stored on, this IS are not private, are^C
+subject to routine monitoring, interception, and search, and may be^C
+disclosed or used for any Intuos Communications authorized purpose.^C
+^C
+D.) This IS includes security measures (e.g., authentication and access^C
+controls) to protect Intuos Communications interests--not for your personal^C
+benefit or privacy.^C
+^C
+E.) Notwithstanding the above, using this IS does not constitute consent to^C
+PM, LE or CI investigative searching or monitoring of the content of^C
+privileged communications, or work product, related to personal^C
+representation or services by attorneys, psychotherapists, or clergy, and^C
+their assistants. Such communications and work product are private and^C
+confidential. See User Agreement for details.^C
+^C
+###############################################################################^C
+!
+!
+!
+!
+interface ethernet 1/1/9
+ disable
+!
+interface ethernet 1/1/10
+ disable
+!
+interface ethernet 1/1/11
+ disable
+!
+interface ethernet 1/1/12
+ disable
+!
+interface ethernet 1/1/13
+ disable
+!
+interface ethernet 1/1/14
+ disable
+!
+interface ethernet 1/1/15
+ disable
+!
+interface ethernet 1/1/16
+ disable
+!
+interface ethernet 1/1/17
+ disable
+!
+interface ethernet 1/1/18
+ disable
+!
+interface ethernet 1/1/19
+ disable
+!
+interface ethernet 1/1/20
+ disable
+!
+interface ethernet 1/1/21
+ disable
+!
+interface ethernet 1/1/22
+ disable
+!
+interface ethernet 1/1/23
+ disable
+!
+interface ethernet 1/1/24
+ port-name tbrocato-SPA525G2
+ inline power
+ trust dscp 
+!
+interface ethernet 1/2/1
+ disable
+!
+interface ethernet 1/2/2
+ disable
+!
+interface ethernet 1/2/3
+ disable
+!
+interface ethernet 1/2/4
+ disable
+!
+interface ve 2
+ ip address 192.168.4.5 255.255.254.0
+!
+interface ve 3
+ ip address 192.168.2.1 255.255.254.0
+!
+ip syslog source-interface ve 2
+!
+!
+!
+!
+lldp med network-policy application voice tagged vlan 16 priority 5 dscp 46 ports ethe 1/1/1
+lldp run
+!
+!
+ip ssh  timeout 60
+!
+!
+end
+
