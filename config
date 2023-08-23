@@ -1,0 +1,10 @@
+[core]
+	bare = true
+	repositoryformatversion = 0
+	filemode = true
+[user]
+	name = oxidized
+	email = oxidized@intuos.net
+[remote "origin"]
+	url = git@github.com:intoxidized/ironware.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
